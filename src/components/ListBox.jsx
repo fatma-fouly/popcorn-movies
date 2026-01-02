@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function ListBox( {movies , setIsOpen1 , isOpen1} ) {
+export default function ListBox( {movies , setIsOpen1 , isOpen1 , onSelectMovie} ) {
   return (
            <div className="box">
           <button
@@ -12,7 +12,7 @@ export default function ListBox( {movies , setIsOpen1 , isOpen1} ) {
           {isOpen1 && (
             <ul className="list">
               {movies?.map((movie) => (
-                <li key={movie.imdbID}>
+                <li key={movie.imdbID}  onClick = {()=> onSelectMovie(movie.imdbID)}>
                   <img src={movie.Poster} alt={`${movie.Title} poster`} />
                   <h3>{movie.Title}</h3>
                   <div>
