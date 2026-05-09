@@ -2,7 +2,8 @@ import React from 'react'
 import WatchedSummery from './WatchedSummery'
 
 export default function WatchedMovie({ watched, avgImdbRating,
-  avgUserRating, avgRuntime, isOpen2, setIsOpen2, onCloseMovie  ,MovieDetails , selectedId ,onAddWatched , HandleCloseMovie}) {
+  avgUserRating, avgRuntime, isOpen2, setIsOpen2, onCloseMovie  ,
+  MovieDetails  , selectedId ,onAddWatched , HandleCloseMovie ,onDeleteWatched}) {
   return (
 
     <div className="box">
@@ -14,13 +15,14 @@ export default function WatchedMovie({ watched, avgImdbRating,
       </button>
       {isOpen2 && (
         <>
-         {selectedId ? <MovieDetails selectedId={selectedId} onCloseMovie={onCloseMovie} onAddWatched={onAddWatched} HandleCloseMovie={HandleCloseMovie}  />
+         {selectedId ? <MovieDetails selectedId={selectedId} onCloseMovie={onCloseMovie}
+          onAddWatched={onAddWatched} HandleCloseMovie={HandleCloseMovie} watched={watched} onDeleteWatched={onDeleteWatched} />
          :  <>
           <WatchedSummery watched={watched} avgImdbRating={avgImdbRating} avgUserRating={avgUserRating}
-           avgRuntime={avgRuntime} />
+           avgRuntime={avgRuntime} onDeleteWatched={onDeleteWatched} />
           <ul className="list">
             {watched.map((movie) => (
-              <li key={movie.ImdbID}  >
+              <li key={movie.imdbID}  >
                 <img src={movie.Poster} alt={`${movie.Title} poster`} />
                 <h3>{movie.Title}</h3>
                 <div>
@@ -35,7 +37,9 @@ export default function WatchedMovie({ watched, avgImdbRating,
                   <p>
                     <span>⏳</span>
                     <span>{movie.Runtime} min</span>
-                  </p>                    </div>
+                  </p>               
+                  <button className='btn-delete' onClick={()=> onDeleteWatched(movie.imdbID)}>X</button>
+                  </div>
               </li>
             ))}
           </ul>   </> }

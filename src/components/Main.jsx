@@ -5,7 +5,7 @@ import WatchedMovie from "./WatchedMovie";
 
 
 export default function Main({ movies, watched, MovieDetails,
-   selectedId, onSelectMovie ,onCloseMovie , onAddWatched}) {
+   selectedId, onSelectMovie ,onCloseMovie , onAddWatched , onDeleteWatched}) {
 
   const [isOpen1, setIsOpen1] = useState(true);
   const [isOpen2, setIsOpen2] = useState(true);
@@ -17,10 +17,10 @@ export default function Main({ movies, watched, MovieDetails,
       <main className="main">
        
           <>
-           <ListBox movies={movies} setIsOpen1={setIsOpen1} isOpen1={isOpen1}  onSelectMovie={onSelectMovie} />
+           <ListBox movies={movies} setIsOpen1={setIsOpen1} isOpen1={isOpen1}  onSelectMovie={onSelectMovie} onDeleteWatched={onDeleteWatched} />
            <WatchedMovie watched={watched}  isOpen2={isOpen2}
                setIsOpen2={setIsOpen2}  onSelectMovie={onSelectMovie} MovieDetails={MovieDetails} 
-               selectedId={selectedId}  onCloseMovie={onCloseMovie}  onAddWatched={onAddWatched}  />
+               selectedId={selectedId}  onCloseMovie={onCloseMovie}  onAddWatched={onAddWatched} onDeleteWatched={onDeleteWatched} />
              
           </>
       </main>

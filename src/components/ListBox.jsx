@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function ListBox( {movies , setIsOpen1 , isOpen1 , onSelectMovie} ) {
+export default function ListBox( {movies , setIsOpen1 , isOpen1 , onSelectMovie } ) {
   return (
            <div className="box">
           <button

@@ -6,7 +6,6 @@ import StarRating from "./components/StarRating";
 import { useRef } from "react";
 import { useMovies } from "./components/useMovies";
 import { useLocalStorage } from "./components/useLocalStorage";
-import { useKey } from "./components/useKey";
 
 const KEY = '7c0905a0'
 
@@ -64,8 +63,12 @@ function Loader() {
 export default function App() {
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
-  const [watched, setWatched] = useLocalStorage('watched', []);  //custom hook
-  const {movies, isLoading, error} = useMovies(query); // custom hook
+ 
+  const [watched, setWatched] = useState(function(){
+    const storedWatched = localStorage.getItem('watched');
+    return JSON.parse(storedWatched);
+  });
+  const {movies, isLoading, error} = useMovies(query);
 
   function  HandleSelectMovie(id) {
     setSelectedId(selectedId=> id=== selectedId ? null  : id )
@@ -86,7 +89,7 @@ export default function App() {
   useEffect(function(){
     localStorage.setItem('watched' , JSON.stringify(watched) )
   }
-    , [watched])      //to save in local storage whenever watched changes
+    , [watched])
 
     function MovieDetails({selectedId, onCloseMovie , onAddWatched , watched}) {
    
@@ -116,8 +119,19 @@ export default function App() {
      onAddWatched(newWatchedList);
      onCloseMovie();
     }
-     useKey('Escape', onCloseMovie)  // Custom Hook 
 
+    useEffect(function(){  // close the movie section when enter esc button 
+       function callback(e){
+       if (e.key === "Escape") {
+       onCloseMovie();
+      } }
+       
+       document.addEventListener("keydown" , callback)
+
+      return function(){
+        document.removeEventListener('keydown', callback )
+      }
+  }, [onCloseMovie])
     useEffect(function(){
       async function getMovieDetils(){
        setIsLoading(true); 
@@ -173,6 +187,25 @@ export default function App() {
     </section>   </> }
     </div> )
   }
+  // useEffect(function () {
+  //   async function fetchData() {
+  //     try {
+  //       setIsLoading(true);
+  //       const res = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`);
+  //       if (!res.ok) {
+  //         throw new Error("there is an error ")
+  //       }
+  //       const data = await res.json();
+  //       setMovies(data.Search);
+  //       setIsLoading(false);
+  //     }
+  //     catch (error) {
+  //       setError(error.message);
+  //       setIsLoading(false);
+  //     }
+  //   } fetchData();
+  // }, [query]);
+
 
   return (
     <>
